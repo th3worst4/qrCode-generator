@@ -1,9 +1,6 @@
 #include <stdint.h>
+#include <string.h>
 #include <cstdio>
-
-enum ImageType{
-    PNG, JPG, BMP, TGA
-};
 
 struct Image {
     uint8_t* data = NULL;
@@ -17,6 +14,5 @@ struct Image {
 
     bool read(const char* filename);
     bool write(const char* filename);
-
-    ImageType getFileType(const char* filename);
+    void fillpixel(bool color, int step);
 };
