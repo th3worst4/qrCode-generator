@@ -1,4 +1,4 @@
-#include "includes/image.h"
+#include "image.h"
 
 int main(int agrc, char** argv){
     int w, h;

@@ -13,9 +13,9 @@
                 "-static-libgcc",
                 "-static-libstdc++",
 				"main.cpp",
-				"includes\\image.cpp",
+				"image.o",
 				"-o",
-				"${fileDirname}\\main.exe",
+				"..\\main.exe",
 			],
 			"options": {
 				"cwd": "${fileDirname}"
@@ -25,6 +25,32 @@
 			],
 			"group": "build",
 			"detail": "compiler: C:\\MinGW\\bin\\g++.exe"
+		},
+		{
+			"type": "cppbuild",
+			"label": "C/C++: g++.exe compile to object",
+			"command": "C:\\MinGW\\bin\\g++.exe",
+			"args": [
+				"-fdiagnostics-color=always",
+				"-g",
+				"-O3",
+				"-finline-functions",
+                "-static-libgcc",
+                "-static-libstdc++",
+				"-o",
+				"image.o",
+				"-c",
+				"image.cpp",
+			],
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build",
+			"detail": "compiler: C:\\MinGW\\bin\\g++.exe"
+			
 		}
 	]
 }
