@@ -34,11 +34,12 @@ int main(int agrc, char** argv){
     Image out(33, 33, 1);
     bool test = true;
 
-    for(int i = 0; i < out.size ; i += out.channels){
+    /*for(int i = 0; i < out.size ; i += out.channels){
         out.fillpixel(test, i);
         test = !test;
-    }
+    }*/
 
+    out.positioning();
     out.write("out.png");
 
     /*std::string out = UTF8toISO8859_1(*(argv+1));

@@ -15,4 +15,5 @@ struct Image {
     bool read(const char* filename);
     bool write(const char* filename);
     void fillpixel(bool color, int step);
+    void positioning();
 };
