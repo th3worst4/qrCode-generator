@@ -28,6 +28,23 @@ void Image::fillpixel(bool color, int step){
     }
 }
 void Image::positioning(){
-    memset(data, 0, 7);
-    //memset(data, 0, 1);
+    for(int j = 0; j < 7; j++){
+        memset(data+j*w, 0, 7);
+        memset(data+(w-7)+j*w, 0, 7);
+        memset(data+(h-7)*w+j*w, 0, 7);
+    }
+    for(int i = 0; i < 5; i++){
+        memset(data+(i+1)*w+1, 255, 5);
+        memset(data+(w-6)+(i+1)*w, 255, 5);
+        memset(data+(h-6)*w+i*w+1, 255, 5);
+    }
+    for(int k = 0; k < 3; k++){
+        memset(data+(k+2)*w+2, 0, 3);
+        memset(data+(w-5)+(k+2)*w, 0, 3);
+        memset(data+(h-5)*w+k*w+2, 0, 3);
+
+    }
+
+    /* *(data+28+21) = 0;
+    *(data+28+27) = 0; */
 }

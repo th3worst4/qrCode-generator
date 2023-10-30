@@ -24,7 +24,8 @@
 				"$gcc"
 			],
 			"group": "build",
-			"detail": "compiler: C:\\MinGW\\bin\\g++.exe"
+			"detail": "compiler: C:\\MinGW\\bin\\g++.exe",
+			"dependsOn": ["C/C++: g++.exe compile to object"]
 		},
 		{
 			"type": "cppbuild",
