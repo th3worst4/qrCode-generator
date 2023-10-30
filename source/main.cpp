@@ -1,4 +1,4 @@
-#include "image.h"
+#include "image.hh"
 #include <string>
 
 std::string UTF8toISO8859_1(const char* in){
@@ -30,12 +30,8 @@ std::string UTF8toISO8859_1(const char* in){
 }
 
 int main(int agrc, char** argv){
-    /*int w, h;
 
-    w = 72;
-    h = 72;
-
-    Image out(w, h, 3);
+    Image out(33, 33, 1);
     bool test = true;
 
     for(int i = 0; i < out.size ; i += out.channels){
@@ -43,11 +39,11 @@ int main(int agrc, char** argv){
         test = !test;
     }
 
-    out.write("out.png");*/
+    out.write("out.png");
 
-    std::string out = UTF8toISO8859_1(*(argv+1));
+    /*std::string out = UTF8toISO8859_1(*(argv+1));
 
-    printf("%s", out);
+    printf("%s", out);*/
 
     return 0;
 }

@@ -1,8 +1,8 @@
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_IMPLEMENTATION
-#include "image.h"
-#include "stb_image.h"
-#include "stb_image_write.h"
+#include "image.hh"
+#include "stb_image.hh"
+#include "stb_image_write.hh"
 
 Image::Image(int w, int h, int channels) : w(w), h(h), channels(channels) {
     size = w*h*channels;
