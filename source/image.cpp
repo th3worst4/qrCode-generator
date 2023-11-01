@@ -42,9 +42,14 @@ void Image::positioning(){
         memset(data+(k+2)*w+2, 0, 3);
         memset(data+(w-5)+(k+2)*w, 0, 3);
         memset(data+(h-5)*w+k*w+2, 0, 3);
-
     }
-
-    /* *(data+28+21) = 0;
-    *(data+28+27) = 0; */
+    timing();
+}
+void Image::timing(){
+    bool pixel = 1;
+    for(int i = 0; i < w-15; i++){
+        *(data+w*6+7+i) = pixel*255;
+        *(data+w*(7+i)+6) = pixel*255;
+        pixel = !pixel;
+    }
 }
