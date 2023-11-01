@@ -43,7 +43,7 @@ void Image::positioning(){
         memset(data+(w-5)+(k+2)*w, 0, 3);
         memset(data+(h-5)*w+k*w+2, 0, 3);
     }
-    timing(); 
+    timing();
 }
 void Image::timing(){
     bool pixel = 1;
