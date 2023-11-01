@@ -31,7 +31,7 @@ std::string UTF8toISO8859_1(const char* in){
 
 int main(int agrc, char** argv){
 
-    Image out(29, 29, 1);
+    Image out(33, 33, 1);
     bool test = true;
 
     /*for(int i = 0; i < out.size ; i += out.channels){
