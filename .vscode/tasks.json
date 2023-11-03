@@ -7,6 +7,7 @@
 			"command": "C:\\MinGW\\bin\\g++.exe",
 			"args": [
 				"-g",
+				"-m64",
 				"main.cpp",
 				"image.o",
 				"-o",
