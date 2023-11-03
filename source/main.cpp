@@ -40,6 +40,7 @@ int main(int agrc, char** argv){
     }*/
 
     out.positioning();
+    out.errorcorrection('L');
     out.write("out.png");
 
     /*std::string out = UTF8toISO8859_1(*(argv+1));

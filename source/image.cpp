@@ -53,3 +53,34 @@ void Image::timing(){
         pixel = !pixel;
     }
 }
+void Image::errorcorrection(const char level){
+    uint8_t* error = new uint8_t[2];
+
+    switch (level){
+    case 'L':
+        *error = 0;
+        *(error+1) = 0;
+        break;
+    case 'M':
+        *error = 0;
+        *(error+1) = 1;
+        break;
+    case 'Q':
+        *error = 1;
+        *(error+1) = 0;
+        break;
+    case 'H':
+        *error = 1;
+        *(error+1) = 1;
+        break;
+    default:
+        *error = 0;
+        *(error+1) = 0;
+        break;
+    }
+
+    for(int i = 0; i < 2; i++){
+        *(data+7*w+i) = *(error+i)*255;
+        *(data+w*(h-i)-(w-7)) = *(error+i)*255;
+    }
+}

@@ -17,4 +17,5 @@ struct Image {
     void fillpixel(bool color, int step);
     void positioning();
     void timing();
+    void errorcorrection(const char level);
 };
