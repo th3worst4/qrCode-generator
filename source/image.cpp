@@ -132,18 +132,37 @@ std::string Image::orientation(const size_t len){
                 }
             }else if(vdir == -1){
                 if(i+4 < 21){
-                    ori = ori + "V";
+                    ori = ori + "v";
                     i+=4;
                 }else {
-                    ori = ori + "H";
+                    ori = ori + "h";
                     vdir = 1;
                     j-=2;
                 }
             }
-        }else {
-            break;
+        }else if(j <= w-8 && j > 9){
+            if(vdir == 1){
+                if(i-4 > 1){
+                    ori = ori + "V";
+                    i-=4;
+                }else {
+                    ori = ori + "H";
+                    vdir = -1;
+                    j-=2;
+                }
+            }else if(vdir == -1){
+                if(i+4 < 21){
+                    ori = ori + "v";
+                    i+=4;
+                }else {
+                    ori = ori + "h";
+                    vdir = 1;
+                    j-=2;
+                }
+            }
         }
     }
+    ori = ori + "e";
     return ori;
 }
 void Image::writedata(const std::string encmess, const size_t len){
