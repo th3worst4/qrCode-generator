@@ -120,7 +120,7 @@ std::string Image::orientation(const size_t len){
     int j = w;
     int vdir = 1;
     for(int index = 0; index < len; index++){
-        if(j > 14){
+        if(j > w-8){
             if(vdir == 1){
                 if(i-4 > 9){
                     ori = ori + "V";
