@@ -19,13 +19,12 @@ bool Image::write(const char* filename){
     int sucess = stbi_write_png(filename, w, h, channels, data, w*channels);
     return sucess;
 }
-void Image::fillpixel(bool color, int step){
-    if (color) {
-        memset(data+step, 0, 1);
-    }
-    else {
-        memset(data+step, 255, 1);
-    }
+void Image::generate(int w, const char* mess, const char level){
+    positioning();
+    messengedata(mess);
+    errorcorrection(level);
+    write("out.png");
+
 }
 void Image::positioning(){
     for(int j = 0; j < 7; j++){
@@ -93,14 +92,23 @@ size_t Image::getlen(const char* mess){
 }
 void Image::messengedata(const char* mess){
     *(data+w*h-1) = 0;
+
     size_t len = getlen(mess);
     std::string binary = std::bitset<8>(len).to_string();
 
+    std::string encmess;
+    for(int i = 0; i < len; i++){
+        encmess = encmess + std::bitset<8>(*(mess+i)).to_string();
+    }
+    encmess = encmess + '\0';
+    
     int iterator = 0;
     for(int i = 0; i < 4; i++){
-        for(int j = 0; j<2; j++){
+        for(int j = 0; j < 2; j++){
             *(data+(h-2-i)*w-1-j) = !(binary[iterator]-'0')*255;
             iterator++;
         }
     }
+
+    
 }

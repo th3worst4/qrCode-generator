@@ -5,15 +5,7 @@ int main(int agrc, char** argv){
     Image out(21, 21, 1);
     bool test = true;
 
-    /*for(int i = 0; i < out.size ; i += out.channels){
-        out.fillpixel(test, i);
-        test = !test;
-    }*/
-
-    out.positioning();
-    out.messengedata(*(argv+1));
-    out.errorcorrection('L');
-    out.write("out.png");
+    out.generate(21, *(argv+1), 'L');
 
     return 0;
 }
