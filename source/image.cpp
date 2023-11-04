@@ -167,10 +167,26 @@ std::string Image::orientation(const size_t len){
 }
 void Image::writedata(const std::string encmess, const size_t len){
     std::string ori = orientation(len);
-    std::cout<<ori;
-    /*for(int i = 0; i < len; i++){
-        for(int index = 0; index < 8; index++){
-
-        }
-    }*/
+    int byte = 0;
+    for(char c : ori){
+        writebyte(c, byte);
+        byte++;
+    }
+}
+void Image::writebyte(const char c, int byte){
+    switch (c){
+    case 'V':
+        /* code */
+        break;
+    case 'v':
+        break;
+    case 'H':
+        break;
+    case 'h':
+        break;
+    case 'e':
+        break;
+    default:
+        break;
+    }
 }
