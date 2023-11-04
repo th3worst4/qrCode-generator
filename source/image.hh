@@ -7,6 +7,7 @@
 struct Image {
     uint8_t* data = NULL;
     size_t size = 0;
+    size_t dataslots, datavslots, datahslots;
     int w, h, channels;
 
     Image(const char* filename);
@@ -22,4 +23,5 @@ struct Image {
     void errorcorrection(const char level);
     void messengedata(const char* mess);
     size_t getlen(const char* mess);
+    void writedata(std::string encmess, size_t len);
 };

@@ -7,6 +7,9 @@
 Image::Image(int w, int h, int channels) : w(w), h(h), channels(channels) {
     size = w*h*channels;
     data = new uint8_t[size];
+    dataslots = (h*w-81-2*9*8-2*(w-17)-16)/8;
+    datavslots = dataslots-(w-9)/2+1;
+    datahslots = dataslots-datavslots;
     memset(data, 255, size);
 }
 Image::Image(const Image& img) : Image(img.w, img.h, img.channels){
@@ -79,8 +82,8 @@ void Image::errorcorrection(const char level){
     }
 
     for(int i = 0; i < 2; i++){
-        *(data+7*w+i) = *(error+i)*255;
-        *(data+w*(h-i)-(w-7)) = *(error+i)*255;
+        *(data+8*w+i) = *(error+i)*255;
+        *(data+w*(h-i)-(w-8)) = *(error+i)*255;
     }
 }
 size_t Image::getlen(const char* mess){
@@ -109,6 +112,8 @@ void Image::messengedata(const char* mess){
             iterator++;
         }
     }
-
-    
+    writedata(encmess, len);
+}
+void Image::writedata(std::string encmess, size_t len){
+    std::cout<<datavslots<<std::endl<<datahslots;
 }
