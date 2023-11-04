@@ -23,5 +23,6 @@ struct Image {
     void errorcorrection(const char level);
     void messengedata(const char* mess);
     size_t getlen(const char* mess);
-    void writedata(std::string encmess, size_t len);
+    std::string orientation(const size_t len);
+    void writedata(const std::string encmess, const size_t len);
 };

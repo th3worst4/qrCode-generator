@@ -114,6 +114,44 @@ void Image::messengedata(const char* mess){
     }
     writedata(encmess, len);
 }
-void Image::writedata(std::string encmess, size_t len){
-    std::cout<<datavslots<<std::endl<<datahslots;
+std::string Image::orientation(const size_t len){
+    std::string ori;
+    int i = h-6;
+    int j = w;
+    int vdir = 1;
+    for(int index = 0; index < len; index++){
+        if(j > 14){
+            if(vdir == 1){
+                if(i-4 > 9){
+                    ori = ori + "V";
+                    i-=4;
+                }else {
+                    ori = ori + "H";
+                    vdir = -1;
+                    j-=2;
+                }
+            }else if(vdir == -1){
+                if(i+4 < 21){
+                    ori = ori + "V";
+                    i+=4;
+                }else {
+                    ori = ori + "H";
+                    vdir = 1;
+                    j-=2;
+                }
+            }
+        }else {
+            break;
+        }
+    }
+    return ori;
+}
+void Image::writedata(const std::string encmess, const size_t len){
+    std::string ori = orientation(len);
+    std::cout<<ori;
+    /*for(int i = 0; i < len; i++){
+        for(int index = 0; index < 8; index++){
+
+        }
+    }*/
 }
