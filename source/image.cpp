@@ -84,3 +84,23 @@ void Image::errorcorrection(const char level){
         *(data+w*(h-i)-(w-7)) = *(error+i)*255;
     }
 }
+size_t Image::getlen(const char* mess){
+    size_t iterator = 0;
+    while(*(mess+iterator) != '\0' || *(mess+iterator) != 0){
+        iterator++;
+    }
+    return iterator;
+}
+void Image::messengedata(const char* mess){
+    *(data+w*h-1) = 0;
+    size_t len = getlen(mess);
+    std::string binary = std::bitset<8>(len).to_string();
+
+    int iterator = 0;
+    for(int i = 0; i < 4; i++){
+        for(int j = 0; j<2; j++){
+            *(data+(h-2-i)*w-1-j) = !(binary[iterator]-'0')*255;
+            iterator++;
+        }
+    }
+}

@@ -1,6 +1,8 @@
 #include <stdint.h>
 #include <string.h>
 #include <cstdio>
+#include <bitset>
+#include <iostream>
 
 struct Image {
     uint8_t* data = NULL;
@@ -18,4 +20,6 @@ struct Image {
     void positioning();
     void timing();
     void errorcorrection(const char level);
+    void messengedata(const char* mess);
+    size_t getlen(const char* mess);
 };
