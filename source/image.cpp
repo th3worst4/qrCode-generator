@@ -114,32 +114,58 @@ void Image::messengedata(const char* mess){
     }
     writedata(encmess, len);
 }
-std::string Image::orientation(const size_t len){
+std::string Image::writedata(const std::string encmes, const size_t len){
     std::string ori;
     int i = h-6;
     int j = w;
     int vdir = 1;
-    for(int index = 0; index < len; index++){
+    for(int byte = 0; byte < len; byte++){
+        int iterator = 0;    
         if(j > w-8){
             if(vdir == 1){
                 if(i-4 > 9){
                     ori = ori + "V";
+                    for(int a = 0; a < 4; a++){
+                        for(int b = 0; b < 2; b++){
+                            *(data+(i-a-1)*w+j-b-1) = !(encmes[byte*8 + iterator]-'0')*255;
+                            iterator++;
+                        }
+                    }
                     i-=4;
                 }else {
                     ori = ori + "H";
                     vdir = -1;
+                    for(int a = 0; a < 2; a++){
+                        for(int b = 0; b < 2; b++){
+                            *(data+(i-a-1)*w+j-b-1) = !(encmes[byte*8 + iterator]-'0')*255;
+                            iterator++;
+                        }
+                    }
                     j-=2;
+                    for(int a = 0; a < 2; a++){
+                        for(int b = 0; b < 2; b++){
+                            *(data+(i+a-2)*w+j-b-1) = !(encmes[byte*8 + iterator]-'0')*255;
+                            iterator++;
+                        }
+                    }
+                    i = h - 10;
                 }
             }else if(vdir == -1){
                 if(i+4 < 21){
                     ori = ori + "v";
+                    for(int a = 0; a < 4; a++){
+                        for(int b = 0; b < 2; b++){
+                            *(data+(i-a-1)*w+j-b-1) = !(encmes[byte*8 + iterator]-'0')*255;
+                            iterator++;
+                        }
+                    }
                     i+=4;
                 }else {
                     ori = ori + "h";
                     vdir = 1;
                     j-=2;
+                    i = h - 2;
                 }
-            }
         }else if(j <= w-8 && j > 9){
             if(vdir == 1){
                 if(i-4 > 1){
@@ -164,29 +190,4 @@ std::string Image::orientation(const size_t len){
     }
     ori = ori + "e";
     return ori;
-}
-void Image::writedata(const std::string encmess, const size_t len){
-    std::string ori = orientation(len);
-    int byte = 0;
-    for(char c : ori){
-        writebyte(c, byte);
-        byte++;
-    }
-}
-void Image::writebyte(const char c, int byte){
-    switch (c){
-    case 'V':
-        /* code */
-        break;
-    case 'v':
-        break;
-    case 'H':
-        break;
-    case 'h':
-        break;
-    case 'e':
-        break;
-    default:
-        break;
-    }
 }
