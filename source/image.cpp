@@ -148,14 +148,14 @@ std::string Image::writedata(const std::string encmes, const size_t len){
                             iterator++;
                         }
                     }
-                    i = h - 10;
+                    i = h - 9;
                 }
             }else if(vdir == -1){
                 if(i+4 < 21){
                     ori = ori + "v";
                     for(int a = 0; a < 4; a++){
                         for(int b = 0; b < 2; b++){
-                            *(data+(i-a-1)*w+j-b-1) = !(encmes[byte*8 + iterator]-'0')*255;
+                            *(data+(i+a-1)*w+j-b-1) = !(encmes[byte*8 + iterator]-'0')*255;
                             iterator++;
                         }
                     }
@@ -163,31 +163,85 @@ std::string Image::writedata(const std::string encmes, const size_t len){
                 }else {
                     ori = ori + "h";
                     vdir = 1;
+                    for(int a = 0; a < 2; a++){
+                        for(int b = 0; b < 2; b++){
+                            *(data+(i+a-1)*w+j-b-1) = !(encmes[byte*8 + iterator]-'0')*255;
+                            iterator++;
+                        }
+                    }
                     j-=2;
+                    for(int a = 0; a < 2; a++){
+                        for(int b = 0; b < 2; b++){
+                            *(data+(i-a)*w+j-b-1) = !(encmes[byte*8 + iterator]-'0')*255;
+                            iterator++;
+                        }
+                    }
                     i = h - 2;
                 }
+            }
         }else if(j <= w-8 && j > 9){
             if(vdir == 1){
                 if(i-4 > 1){
+                    (i == 7) ? i-=1 : i = i;
                     ori = ori + "V";
+                    for(int a = 0; a < 4; a++){
+                        for(int b = 0; b < 2; b++){
+                            *(data+(i-a-1)*w+j-b-1) = !(encmes[byte*8 + iterator]-'0')*255;
+                            iterator++;
+                        }
+                    }
                     i-=4;
                 }else {
                     ori = ori + "H";
-                    vdir = -1;
+                    for(int a = 0; a < 2; a++){
+                        for(int b = 0; b < 2; b++){
+                            *(data+(i-a-1)*w+j-b-1) = !(encmes[byte*8 + iterator]-'0')*255;
+                            iterator++;
+                        }
+                    }
                     j-=2;
+                    for(int a = 0; a < 2; a++){
+                        for(int b = 0; b < 2; b++){
+                            *(data+(i+a-2)*w+j-b-1) = !(encmes[byte*8 + iterator]-'0')*255;
+                            iterator++;
+                        }
+                    }
+                    i = 3;
+                    vdir = -1;
                 }
             }else if(vdir == -1){
                 if(i+4 < 21){
                     ori = ori + "v";
+                    (i == 7) ? i+=1 : i = i;
+                    for(int a = 0; a < 4; a++){
+                        for(int b = 0; b < 2; b++){
+                            *(data+(i+a-1)*w+j-b-1) = !(encmes[byte*8 + iterator]-'0')*255;
+                            iterator++;
+                        }
+                    }
                     i+=4;
                 }else {
                     ori = ori + "h";
                     vdir = 1;
+                    for(int a = 0; a < 2; a++){
+                        for(int b = 0; b < 2; b++){
+                            *(data+(i+a-1)*w+j-b-1) = !(encmes[byte*8 + iterator]-'0')*255;
+                            iterator++;
+                        }
+                    }
                     j-=2;
+                    for(int a = 0; a < 2; a++){
+                        for(int b = 0; b < 2; b++){
+                            *(data+(i-a)*w+j-b-1) = !(encmes[byte*8 + iterator]-'0')*255;
+                            iterator++;
+                        }
+                    }
+                    i = h - 2;
                 }
             }
         }
     }
     ori = ori + "e";
+    std::cout<<ori<<std::endl;
     return ori;
 }
