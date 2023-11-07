@@ -148,10 +148,10 @@ std::string Image::writedata(const std::string encmes, const size_t len){
                             iterator++;
                         }
                     }
-                    i = h - 9;
+                    i = h -9;
                 }
             }else if(vdir == -1){
-                if(i+4 < 21){
+                if(i+4 < h){
                     ori = ori + "v";
                     for(int a = 0; a < 4; a++){
                         for(int b = 0; b < 2; b++){
@@ -210,7 +210,7 @@ std::string Image::writedata(const std::string encmes, const size_t len){
                     vdir = -1;
                 }
             }else if(vdir == -1){
-                if(i+4 < 21){
+                if(i+4 < h){
                     ori = ori + "v";
                     (i == 7) ? i+=1 : i = i;
                     for(int a = 0; a < 4; a++){
@@ -242,6 +242,23 @@ std::string Image::writedata(const std::string encmes, const size_t len){
         }
     }
     ori = ori + "e";
-    std::cout<<ori<<std::endl;
+    if(vdir == 1){
+        int end[5] = {1, 1, 0, 0, 0};
+        for(int a = 0; a < 2; a++){
+            for(int b = 0; b < 2; b++){
+                *(data+(i-a-1)*w+j-b-1) = !(end[end[4]])*255;
+                end[4]++;
+            }
+        }
+    }else{
+        int end[5] = {0, 0, 1, 1, 0};
+        for(int a = 0; a < 2; a++){
+            for(int b = 0; b < 2; b++){
+                *(data+(i+a-1)*w+j-b-1) = !(end[end[4]])*255;
+                end[4]++;
+            }
+        }
+    }
+    //std::cout<<ori<<std::endl;
     return ori;
 }
