@@ -94,7 +94,7 @@ size_t Image::getlen(const char* mess){
     return iterator;
 }
 void Image::messengedata(const char* mess){
-    *(data+w*h-1) = 0;
+    *(data+w*h-2) = 0;
 
     size_t len = getlen(mess);
     std::string binary = std::bitset<8>(len).to_string();
@@ -242,23 +242,11 @@ std::string Image::writedata(const std::string encmes, const size_t len){
         }
     }
     ori = ori + "e";
-    if(vdir == 1){
-        int end[5] = {1, 1, 0, 0, 0};
-        for(int a = 0; a < 2; a++){
-            for(int b = 0; b < 2; b++){
-                *(data+(i-a-1)*w+j-b-1) = !(end[end[4]])*255;
-                end[4]++;
-            }
-        }
-    }else{
-        int end[5] = {0, 0, 1, 1, 0};
-        for(int a = 0; a < 2; a++){
-            for(int b = 0; b < 2; b++){
-                *(data+(i+a-1)*w+j-b-1) = !(end[end[4]])*255;
-                end[4]++;
-            }
+    for(int a = 0; a < 2; a++){
+        for(int b = 0; b < 2; b++){
+            *(data+(i-a-1)*w+j-b-1) = 255;
         }
     }
-    //std::cout<<ori<<std::endl;
+    std::cout<<ori<<std::endl;
     return ori;
 }
