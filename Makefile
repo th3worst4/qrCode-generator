@@ -1,4 +1,5 @@
 CFLAGS = -m64
+SHELL = pwsh
 
 all: final
 
@@ -13,5 +14,7 @@ main.o: source/main.cpp
 	g++ $(CFLAGS) -o source/main.o -c source/main.cpp
 
 clean:
-	rm source/main.o source/image.o main.exe
-	final
+	del source\main.o 
+	del source\image.o 
+	del main.exe
+	make all
