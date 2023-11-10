@@ -9,3 +9,4 @@ Reed Solomon code:
 	https://en.wikiversity.org/wiki/Reed–Solomon_codes_for_coders
 	https://youtu.be/X8jsijhllIA?si=qCxaXryVOfoCisoy
 	https://youtu.be/Yu9DHhdSqQo?si=oY8aAA648QZU0Nhe
+	https://chat.openai.com/share/4b56aa10-0122-48a4-a688-4e721591f160
