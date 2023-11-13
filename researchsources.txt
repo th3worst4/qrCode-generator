@@ -1,0 +1,12 @@
+Some sources
+QR code generation:
+	https://en.wikipedia.org/wiki/QR_code#
+	https://www.youtube.com/watch?v=Rc3ul6RRANU&
+	https://youtu.be/KA8hDldvfv0?si=ZHavlQTsIpW7EErZ
+	https://www.youtube.com/watch?v=142TGhaTMtI
+
+Reed Solomon code:
+	https://en.wikiversity.org/wiki/Reed–Solomon_codes_for_coders
+	https://youtu.be/X8jsijhllIA?si=qCxaXryVOfoCisoy
+	https://youtu.be/Yu9DHhdSqQo?si=oY8aAA648QZU0Nhe
+	https://chat.openai.com/share/4b56aa10-0122-48a4-a688-4e721591f160
