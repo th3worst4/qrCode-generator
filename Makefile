@@ -1,10 +1,12 @@
 CC = g++
 CFLAGS = -m64
-SHELL = pwsh
 
 CFILES = image.cpp main.cpp
 OBJECTS = image.o main.o
 DOBJECTS = main-debug.o image-debug.o
+
+SHELL := pwsh.exe
+.SHELLFLAGS := -Command
 
 all: final debug
 
