@@ -19,8 +19,8 @@ $(OBJECTS): %.o: source/%.cpp
 
 debug: $(DOBJECTS)
 	$(CC) $(CFLAGS) -g $(addprefix debug/, $(DOBJECTS)) -o debug/main-debug.exe
-	@echo debug application built successfully
-	@echo you can run gdb on "main-debug.exe"
+	@echo "debug application built successfully"
+	@echo "you can run gdb on 'main-debug.exe'"
 
 $(DOBJECTS): %-debug.o: source/%.cpp
 	$(CC) $(CFLAGS) -g -o debug/$@ -c $^

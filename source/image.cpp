@@ -8,8 +8,6 @@ Image::Image(int w, int h, int channels) : w(w), h(h), channels(channels) {
     size = w*h*channels;
     data = new uint8_t[size];
     dataslots = (h*w-81-2*9*8-2*(w-17)-16)/8;
-    datavslots = dataslots-(w-9)/2+1;
-    datahslots = dataslots-datavslots;
     memset(data, 255, size);
 }
 Image::Image(const Image& img) : Image(img.w, img.h, img.channels){
@@ -23,9 +21,10 @@ bool Image::write(const char* filename){
     return sucess;
 }
 void Image::generate(int w, const char* mess, const char level){
-    positioning();
     messengedata(mess);
-    errorcorrection(level);
+    //errorcorrection(level);
+    masking();
+    positioning();
     write("out.png");
 
 }
@@ -49,9 +48,9 @@ void Image::positioning(){
 }
 void Image::timing(){
     bool pixel = 1;
-    for(int i = 0; i < w-15; i++){
-        *(data+w*6+7+i) = pixel*255;
-        *(data+w*(7+i)+6) = pixel*255;
+    for(int i = 0; i < 7; i++){
+        *(data+133+i) = pixel*255;
+        *(data+21*(7+i)+6) = pixel*255;
         pixel = !pixel;
     }
 }
@@ -82,8 +81,8 @@ void Image::errorcorrection(const char level){
     }
 
     for(int i = 0; i < 2; i++){
-        *(data+8*w+i) = *(error+i)*255;
-        *(data+w*(h-i)-(w-8)) = *(error+i)*255;
+        *(data+168+i) = *(error+i)*255;
+        *(data+21*(21-i)-13) = *(error+i)*255;
     }
 }
 size_t Image::getlen(const char* mess){
@@ -108,16 +107,16 @@ void Image::messengedata(const char* mess){
     int iterator = 0;
     for(int i = 0; i < 4; i++){
         for(int j = 0; j < 2; j++){
-            *(data+(h-2-i)*w-1-j) = !(binary[iterator]-'0')*255;
+            *(data+(19-i)*21-1-j) = !(binary[iterator]-'0')*255;
             iterator++;
         }
     }
     writedata(encmess, len);
 }
-std::string Image::writedata(const std::string encmes, const size_t len){
+void Image::writedata(const std::string encmes, const size_t len){
     std::string ori;
-    int i = h-6;
-    int j = w;
+    int i = 15;
+    int j = 21;
     int vdir = 1;
     for(int byte = 0; byte < len; byte++){
         int iterator = 0;    
@@ -247,6 +246,11 @@ std::string Image::writedata(const std::string encmes, const size_t len){
             *(data+(i-a-1)*w+j-b-1) = 255;
         }
     }
-    std::cout<<ori<<std::endl;
-    return ori;
+}
+void Image::masking(){
+    for(int i = 0; i < 21; i++){
+        for(int j = 0; j < 21; j++){
+            *(data+i*21+j) = (i%2 == 0)? !(*(data+i*21+j))*255 : (*(data+i*21+j)); 
+        }
+    }
 }
