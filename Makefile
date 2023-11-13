@@ -1,36 +1,35 @@
+CC = g++
 CFLAGS = -m64
 SHELL = pwsh
 
+CFILES = image.cpp main.cpp
+OBJECTS = image.o main.o
+DOBJECTS = main-debug.o image-debug.o
+
 all: final debug
 
-final: source/image.o source/main.o
-	g++ $(CFLAGS) source/main.o source/image.o -o main.exe
+final: $(OBJECTS)
+	$(CC) $(CFLAGS) $(addprefix bin/, $(OBJECTS)) -o bin/main.exe
 	@echo final application built successfully
 
-image.o: source/image.cpp
-	g++ $(CFLAGS) -o source/image.o -c source/image.cpp
+$(OBJECTS): %.o: source/%.cpp
+	$(CC) $(CFLAGS) -o bin/$@ -c $^
 
-main.o: source/main.cpp
-	g++ $(CFLAGS) -o source/main.o -c source/main.cpp
-
-debug: debug/main-debug.o debug/image-debug.o
-	g++ $(CFLAGS) -g debug/main-debug.o debug/image-debug.o -o debug/main-debug.exe
+debug: $(DOBJECTS)
+	$(CC) $(CFLAGS) -g $(addprefix debug/, $(DOBJECTS)) -o debug/main-debug.exe
 	@echo debug application built successfully
 	@echo you can run gdb on "main-debug.exe"
 
-debug/image-debug.o: source/image.cpp
-	g++ $(CFLAGS) -g -o debug/image-debug.o -c source/image.cpp
-
-debug/main-debug.o: source/main.cpp
-	g++ $(CFLAGS) -g -o debug/main-debug.o -c source/main.cpp
+$(DOBJECTS): %-debug.o: source/%.cpp
+	$(CC) $(CFLAGS) -g -o debug/$@ -c $^
 
 clean-all: clean clean-debug
 
 clean:
-	del source\main.o 
-	del source\image.o 
-	del main.exe
-	del out.png
+	del bin\main.o 
+	del bin\image.o 
+	del bin\main.exe
+	del bin\out.png
 
 clean-debug:
 	del debug\main-debug.o
