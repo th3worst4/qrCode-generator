@@ -12,7 +12,7 @@ int main(int argc, char** argv){
     Image out(21, 21, 1);
     bool test = true;
 
-    out.generate(21, *(argv+1), 'L');
+    out.generate(21, "'Twas brillig", 'L');
 
     return 0;
 }

@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <bitset>
 #include <iostream>
+#include <cmath>
 
 struct Image {
     uint8_t* data = NULL;
@@ -24,5 +25,5 @@ struct Image {
     void messengedata(const char* mess);
     size_t getlen(const char* mess);
     void writedata(const std::string encmes, const size_t len);
-    void masking();
+    void masking(const int mask);
 };

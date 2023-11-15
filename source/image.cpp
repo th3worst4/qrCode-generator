@@ -21,28 +21,33 @@ bool Image::write(const char* filename){
     return sucess;
 }
 void Image::generate(int w, const char* mess, const char level){
-    messengedata(mess);
+    //messengedata(mess);
     //errorcorrection(level);
-    masking();
+    masking(11);
     positioning();
     write("out.png");
 
 }
 void Image::positioning(){
+    for(int i = 0; i < 8; i++){
+        memset(data+i*21, 255, 8);
+        memset(data+13+i*21, 255, 8);
+        memset(data+273+i*21, 255, 8);
+    }
     for(int j = 0; j < 7; j++){
         memset(data+j*w, 0, 7);
         memset(data+(w-7)+j*w, 0, 7);
         memset(data+(h-7)*w+j*w, 0, 7);
     }
-    for(int i = 0; i < 5; i++){
-        memset(data+(i+1)*w+1, 255, 5);
-        memset(data+(w-6)+(i+1)*w, 255, 5);
-        memset(data+(h-6)*w+i*w+1, 255, 5);
+    for(int k = 0; k < 5; k++){
+        memset(data+(k+1)*w+1, 255, 5);
+        memset(data+(w-6)+(k+1)*w, 255, 5);
+        memset(data+(h-6)*w+k*w+1, 255, 5);
     }
-    for(int k = 0; k < 3; k++){
-        memset(data+(k+2)*w+2, 0, 3);
-        memset(data+(w-5)+(k+2)*w, 0, 3);
-        memset(data+(h-5)*w+k*w+2, 0, 3);
+    for(int l = 0; l < 3; l++){
+        memset(data+(l+2)*w+2, 0, 3);
+        memset(data+(w-5)+(l+2)*w, 0, 3);
+        memset(data+(h-5)*w+l*w+2, 0, 3);
     }
     timing();
 }
@@ -247,10 +252,152 @@ void Image::writedata(const std::string encmes, const size_t len){
         }
     }
 }
-void Image::masking(){
+void Image::masking(const int mask){
+    int bits[3];
+    bits[0] = mask/100;
+    bits[1] = (mask-bits[0]*100)/10;
+    bits[2] = (mask-bits[0]*100-bits[1]*10);
+    
+    for(int i = 0; i < 3; i++){
+        *(data+170+i) = !bits[i]*255;
+        *(data+(18-i)*21+8) = !bits[i]*255;
+    }
+
+    const int line[21] = {0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1};
     for(int i = 0; i < 21; i++){
-        for(int j = 0; j < 21; j++){
-            *(data+i*21+j) = (i%2 == 0)? !(*(data+i*21+j))*255 : (*(data+i*21+j)); 
+        if(i > 8 && i < 15){
+            continue;
+        }else{
+            *(data+168+i) = line[20-i]? !(*(data+168+i))*255 : *(data+168+i);
+            *(data+21*i+8) = line[i]? !(*(data+21*i+8))*255 : *(data+21*i+8);
         }
     }
+
+    switch (mask){
+    case 0:
+        for(int i = 0; i < 21; i++){
+            for(int j = 0; j < 21; j++){                
+                if(i == 8 || j == 8){
+                    if((j > 8 && j < 13) || (i > 8 && i < 15)){
+                         *(data+i*21+j) = ((i+j)%2 == 0)? !(*(data+i*21+j))*255 : (*(data+i*21+j));
+                    }else{
+                        continue;
+                    }
+                }else{
+                    *(data+i*21+j) = ((i+j)%2 == 0)? !(*(data+i*21+j))*255 : (*(data+i*21+j)); 
+                }
+            }
+        }
+        break;
+    case 1:
+        for(int i = 0; i < 21; i++){
+            for(int j = 0; j < 21; j++){
+                if(i == 8 || j == 8){
+                    if((j > 8 && j < 13) || (i > 8 && i < 15)){
+                         *(data+i*21+j) = (i%2 == 0)? !(*(data+i*21+j))*255 : (*(data+i*21+j));
+                    }else{
+                        continue;
+                    }
+                }else{
+                    *(data+i*21+j) = (i%2 == 0)? !(*(data+i*21+j))*255 : (*(data+i*21+j)); 
+                }
+            }
+        }
+        break;
+    case 10:
+        for(int i = 0; i < 21; i++){
+            for(int j = 0; j < 21; j++){
+                if(i == 8 || j == 8){
+                    if((j > 8 && j < 13) || (i > 8 && i < 15)){
+                        *(data+i*21+j) = (j%3 == 0)? !(*(data+i*21+j))*255 : (*(data+i*21+j)); 
+                    }else{
+                        continue;
+                    }
+                }else{
+                    *(data+i*21+j) = (j%3 == 0)? !(*(data+i*21+j))*255 : (*(data+i*21+j)); 
+                }
+            }
+        }
+        break;
+    case 11:
+        for(int i = 0; i < 21; i++){
+            for(int j = 0; j < 21; j++){
+                if(i == 8 || j == 8){
+                    if((j > 8 && j < 13) || (i > 8 && i < 15)){
+                         *(data+i*21+j) = ((i+j)%3 == 0)? !(*(data+i*21+j))*255 : (*(data+i*21+j));
+                    }else{
+                        continue;
+                    }
+                }else{
+                    *(data+i*21+j) = ((i+j)%3 == 0)? !(*(data+i*21+j))*255 : (*(data+i*21+j)); 
+                }
+            }
+        }
+        break;
+    case 100:
+        for(int i = 0; i < 21; i++){
+            for(int j = 0; j < 21; j++){        
+                if(i == 8 || j == 8){
+                    if((j > 8 && j < 13) || (i > 8 && i < 15)){
+                         *(data+i*21+j) = ((i/2+j/3)%2 == 0)? !(*(data+i*21+j))*255 : (*(data+i*21+j));
+                    }else{
+                        continue;
+                    }
+                }else{
+                    *(data+i*21+j) = ((i/2+j/3)%2 == 0)? !(*(data+i*21+j))*255 : (*(data+i*21+j)); 
+                }
+            }
+        }
+        break;
+    case 101:
+        for(int i = 0; i < 21; i++){
+            for(int j = 0; j < 21; j++){                
+                if(i == 8 || j == 8){
+                    if((j > 8 && j < 13) || (i > 8 && i < 15)){
+                         *(data+i*21+j) = ((i*j)%2 + (i*j)%3 == 0)? !(*(data+i*21+j))*255 : (*(data+i*21+j));
+                    }else{
+                        continue;
+                    }
+                }else{
+                *(data+i*21+j) = ((i*j)%2 + (i*j)%3 == 0)? !(*(data+i*21+j))*255 : (*(data+i*21+j));
+                }
+            }
+        }
+        break;
+    case 110:
+        for(int i = 0; i < 21; i++){
+            for(int j = 0; j < 21; j++){               
+                if(i == 8 || j == 8){
+                    if((j > 8 && j < 13) || (i > 8 && i < 15)){
+                        *(data+i*21+j) = (((i*j)%3+i*j)%2 == 0)? !(*(data+i*21+j))*255 : (*(data+i*21+j));
+                    }else{
+                        continue;
+                    }
+                }else{
+                    *(data+i*21+j) = (((i*j)%3+i*j)%2 == 0)? !(*(data+i*21+j))*255 : (*(data+i*21+j));
+                }
+                
+            }
+        }
+        break;
+    case 111:
+        for(int i = 0; i < 21; i++){
+            for(int j = 0; j < 21; j++){                
+                if(i == 8 || j == 8){
+                    if((j > 8 && j < 13) || (i > 8 && i < 15)){
+                        *(data+i*21+j) = (((i*j)%3+i+j)%2 == 0)? !(*(data+i*21+j))*255 : (*(data+i*21+j)); 
+                    }else{
+                        continue;
+                    }
+                }else{
+                    *(data+i*21+j) = (((i*j)%3+i+j)%2 == 0)? !(*(data+i*21+j))*255 : (*(data+i*21+j)); 
+                }
+                
+            }
+        }
+        break; 
+    default:
+        break;
+    }
+
 }
