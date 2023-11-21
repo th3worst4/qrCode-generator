@@ -13,20 +13,17 @@ Image::Image(int w, int h, int channels) : w(w), h(h), channels(channels) {
 Image::Image(const Image& img) : Image(img.w, img.h, img.channels){
     memcpy(data, img.data, img.size);
 }
-Image::~Image(){
-    stbi_image_free(data);
-}
 bool Image::write(const char* filename){
     int sucess = stbi_write_png(filename, w, h, channels, data, w*channels);
     return sucess;
 }
-void Image::generate(int w, const char* mess, const char level){
+void Image::generate(int w, const char* mess, const char level, const int mask){
     //messengedata(mess);
     //errorcorrection(level);
-    masking(11);
+    masking(mask);
     positioning();
     write("out.png");
-
+    free(data);
 }
 void Image::positioning(){
     for(int i = 0; i < 8; i++){
@@ -253,14 +250,10 @@ void Image::writedata(const std::string encmes, const size_t len){
     }
 }
 void Image::masking(const int mask){
-    int bits[3];
-    bits[0] = mask/100;
-    bits[1] = (mask-bits[0]*100)/10;
-    bits[2] = (mask-bits[0]*100-bits[1]*10);
-    
+    //0b011
     for(int i = 0; i < 3; i++){
-        *(data+170+i) = !bits[i]*255;
-        *(data+(18-i)*21+8) = !bits[i]*255;
+        *(data+170+i) = !((mask>>(2-i))&0b001)*255;
+        *(data+(18-i)*21+8) = !((mask>>(2-i))&0b001)*255;
     }
 
     const int line[21] = {0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1};
@@ -274,7 +267,7 @@ void Image::masking(const int mask){
     }
 
     switch (mask){
-    case 0:
+    case 0b000:
         for(int i = 0; i < 21; i++){
             for(int j = 0; j < 21; j++){                
                 if(i == 8 || j == 8){
@@ -289,7 +282,7 @@ void Image::masking(const int mask){
             }
         }
         break;
-    case 1:
+    case 0b001:
         for(int i = 0; i < 21; i++){
             for(int j = 0; j < 21; j++){
                 if(i == 8 || j == 8){
@@ -304,7 +297,7 @@ void Image::masking(const int mask){
             }
         }
         break;
-    case 10:
+    case 0b010:
         for(int i = 0; i < 21; i++){
             for(int j = 0; j < 21; j++){
                 if(i == 8 || j == 8){
@@ -319,7 +312,7 @@ void Image::masking(const int mask){
             }
         }
         break;
-    case 11:
+    case 0b011:
         for(int i = 0; i < 21; i++){
             for(int j = 0; j < 21; j++){
                 if(i == 8 || j == 8){
@@ -334,7 +327,7 @@ void Image::masking(const int mask){
             }
         }
         break;
-    case 100:
+    case 0b100:
         for(int i = 0; i < 21; i++){
             for(int j = 0; j < 21; j++){        
                 if(i == 8 || j == 8){
@@ -349,7 +342,7 @@ void Image::masking(const int mask){
             }
         }
         break;
-    case 101:
+    case 0b101:
         for(int i = 0; i < 21; i++){
             for(int j = 0; j < 21; j++){                
                 if(i == 8 || j == 8){
@@ -364,7 +357,7 @@ void Image::masking(const int mask){
             }
         }
         break;
-    case 110:
+    case 0b110:
         for(int i = 0; i < 21; i++){
             for(int j = 0; j < 21; j++){               
                 if(i == 8 || j == 8){
@@ -380,7 +373,7 @@ void Image::masking(const int mask){
             }
         }
         break;
-    case 111:
+    case 0b111:
         for(int i = 0; i < 21; i++){
             for(int j = 0; j < 21; j++){                
                 if(i == 8 || j == 8){
