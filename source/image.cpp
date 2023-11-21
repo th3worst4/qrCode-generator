@@ -18,8 +18,8 @@ bool Image::write(const char* filename){
     return sucess;
 }
 void Image::generate(int w, const char* mess, const char level, const int mask){
-    //messengedata(mess);
-    //errorcorrection(level);
+    messengedata(mess);
+    errorcorrection(level);
     masking(mask);
     positioning();
     write("out.png");
