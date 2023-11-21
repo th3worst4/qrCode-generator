@@ -57,7 +57,7 @@ void Image::timing(){
     }
 }
 void Image::errorcorrection(const char level){
-    uint8_t* error = new uint8_t[2];
+    int* error = new int[2];
 
     switch (level){
     case 'L':
