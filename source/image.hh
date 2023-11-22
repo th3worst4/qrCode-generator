@@ -23,4 +23,5 @@ struct Image {
     size_t getlen(const char* mess);
     void writedata(const std::string encmes, const size_t len);
     void masking(const int mask);
+    void resize(const int factor);
 };

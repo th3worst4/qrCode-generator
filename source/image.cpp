@@ -23,7 +23,6 @@ void Image::generate(int w, const char* mess, const char level, const int mask){
     masking(mask);
     positioning();
     write("out.png");
-    free(data);
 }
 void Image::positioning(){
     for(int i = 0; i < 8; i++){
@@ -392,5 +391,22 @@ void Image::masking(const int mask){
     default:
         break;
     }
+}
+
+void Image::resize(const int factor){
+    Image resized(21*factor, 21*factor, 1);
+    uint8_t* r_data = resized.data;
+    
+    for(int i1 = 0; i1 < 21; i1++){
+        for(int j1 = 0; j1 < 21; j1++){
+            for(int i2 = 0; i2 < factor; i2++){
+                for(int j2 = 0; j2 < factor; j2++){
+                    *(r_data+j1*factor+i1*21*(int)pow(factor,2)+j2+i2*21*factor) = *(data+j1+21*i1);
+                }
+            }
+        }
+    }
+
+    resized.write("final.png");
 
 }
