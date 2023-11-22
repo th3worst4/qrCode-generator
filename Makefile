@@ -12,7 +12,9 @@ all: final debug
 
 final: $(OBJECTS)
 	$(CC) $(CFLAGS) $(addprefix bin/, $(OBJECTS)) -o bin/main.exe
-	@echo final application built successfully
+	@echo "final application built successfully"
+	@echo "you can find it at 'bin/main.exe'"
+	@echo " "
 
 $(OBJECTS): %.o: source/%.cpp
 	$(CC) $(CFLAGS) -o bin/$@ -c $^
@@ -20,7 +22,8 @@ $(OBJECTS): %.o: source/%.cpp
 debug: $(DOBJECTS)
 	$(CC) $(CFLAGS) -g $(addprefix debug/, $(DOBJECTS)) -o debug/main-debug.exe
 	@echo "debug application built successfully"
-	@echo "you can run gdb on 'main-debug.exe'"
+	@echo "you can run gdb on 'debug/main-debug.exe'"
+	@echo " "
 
 $(DOBJECTS): %-debug.o: source/%.cpp
 	$(CC) $(CFLAGS) -g -o debug/$@ -c $^
@@ -32,9 +35,11 @@ clean:
 	del bin\image.o 
 	del bin\main.exe
 	del bin\out.png
+	del bin\final.png
 
 clean-debug:
 	del debug\main-debug.o
 	del debug\image-debug.o
 	del debug\main-debug.exe
 	del debug\out.png
+	del debug\final.png

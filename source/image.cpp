@@ -22,7 +22,8 @@ void Image::generate(int w, const char* mess, const char level, const int mask){
     errorcorrection(level);
     masking(mask);
     positioning();
-    write("out.png");
+    resize(27);
+    free(data);
 }
 void Image::positioning(){
     for(int i = 0; i < 8; i++){
@@ -408,5 +409,5 @@ void Image::resize(const int factor){
     }
 
     resized.write("final.png");
-
+    free(r_data);
 }

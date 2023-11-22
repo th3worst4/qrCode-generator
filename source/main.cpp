@@ -15,7 +15,6 @@ int main(int argc, char** argv){
     bool test = true;
 
     out.generate(21, "'Twas brillig", 'L', 0b011);
-    out.resize(27);
 
     return 0;
 }
