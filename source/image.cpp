@@ -4,49 +4,60 @@
 #include "stb_image.hh"
 #include "stb_image_write.hh"
 
+// initialize an Image object
 Image::Image(int w, int h, int channels) : w(w), h(h), channels(channels) {
     size = w*h*channels;
-    data = new uint8_t[size];
-    dataslots = (h*w-81-2*9*8-2*(w-17)-16)/8;
-    memset(data, 255, size);
+    data = new uint8_t[size]; // creates a pointer to the data, this pointer will be used all over the code
+    memset(data, 255, size); // set all pixels to white
 }
 Image::Image(const Image& img) : Image(img.w, img.h, img.channels){
     memcpy(data, img.data, img.size);
 }
+
+// uses stb function to write a .png image file
 bool Image::write(const char* filename){
     int sucess = stbi_write_png(filename, w, h, channels, data, w*channels);
     return sucess;
 }
+
+// this function is the "recipe" to the image, declares each step
 void Image::generate(int w, const char* mess, const char level, const int mask){
-    messengedata(mess);
-    errorcorrection(level);
-    masking(mask);
-    positioning();
-    resize(27);
+    messengedata(mess); // receives the message and encode it
+    errorcorrection(level); // define the error correction level
+    masking(mask);  // masks all data
+    positioning();  // creates the fixed patern of positioning and timing
+    resize(27); // resizes the original image by the passed factor
     free(data);
 }
 void Image::positioning(){
+    /*
+        the positioning process is made like an onion,
+        first it creates a white square,
+        after a black square smaller by 1 pixel,
+        then a white again smaller by 1 pixel,
+        and finally a black square again 1 pixel smaller
+    */
     for(int i = 0; i < 8; i++){
-        memset(data+i*21, 255, 8);
-        memset(data+13+i*21, 255, 8);
-        memset(data+273+i*21, 255, 8);
-    }
+        memset(data+i*21, 255, 8); // upper left
+        memset(data+13+i*21, 255, 8); // upper right
+        memset(data+273+i*21, 255, 8); // bottom left
+    } // set the white spaces
     for(int j = 0; j < 7; j++){
         memset(data+j*w, 0, 7);
         memset(data+(w-7)+j*w, 0, 7);
         memset(data+(h-7)*w+j*w, 0, 7);
-    }
+    } // black squares
     for(int k = 0; k < 5; k++){
         memset(data+(k+1)*w+1, 255, 5);
         memset(data+(w-6)+(k+1)*w, 255, 5);
         memset(data+(h-6)*w+k*w+1, 255, 5);
-    }
+    } // white squares
     for(int l = 0; l < 3; l++){
         memset(data+(l+2)*w+2, 0, 3);
         memset(data+(w-5)+(l+2)*w, 0, 3);
         memset(data+(h-5)*w+l*w+2, 0, 3);
-    }
-    timing();
+    } // black final squares
+    timing(); // calls timing funtion
 }
 void Image::timing(){
     bool pixel = 1;
@@ -57,6 +68,7 @@ void Image::timing(){
     }
 }
 void Image::errorcorrection(const char level){
+    // still working on it
     int* error = new int[2];
 
     switch (level){
@@ -88,6 +100,7 @@ void Image::errorcorrection(const char level){
     }
 }
 size_t Image::getlen(const char* mess){
+    // gets message length
     size_t iterator = 0;
     while(*(mess+iterator) != '\0' || *(mess+iterator) != 0){
         iterator++;
@@ -95,10 +108,10 @@ size_t Image::getlen(const char* mess){
     return iterator;
 }
 void Image::messengedata(const char* mess){
-    *(data+w*h-2) = 0;
+    *(data+w*h-2) = 0; // sets the qrcode to be bitwise
 
     size_t len = getlen(mess);
-    std::string binary = std::bitset<8>(len).to_string();
+    std::string binary = std::bitset<8>(len).to_string(); // insert the length on the qr code
 
     std::string encmess;
     for(int i = 0; i < len; i++){
@@ -112,10 +125,23 @@ void Image::messengedata(const char* mess){
             *(data+(19-i)*21-1-j) = !(binary[iterator]-'0')*255;
             iterator++;
         }
-    }
+    } // encode the message to binary
     writedata(encmess, len);
 }
 void Image::writedata(const std::string encmes, const size_t len){
+    /*
+        idk what to say about this function,
+        is like i had to play Snake on it.
+        it puts all 1's and 0's of the encmess array
+        on it respective pixel.
+        the 'ori' string means to orientation, it was here for debugging;
+        a V represents the datas was written bottom to top
+        a v represents it was written top to bottom
+        an H represents a 'curve' on top
+        an h is a 'curve' on bottom
+        it's easier to follow along than to explain,
+        still i belive there is some clever way to do this
+    */
     std::string ori;
     int i = 15;
     int j = 21;
@@ -250,14 +276,20 @@ void Image::writedata(const std::string encmes, const size_t len){
     }
 }
 void Image::masking(const int mask){
-    //0b011
+    // masks the data, this is, again, some code i think can have a clever approach
     for(int i = 0; i < 3; i++){
         *(data+170+i) = !((mask>>(2-i))&0b001)*255;
         *(data+(18-i)*21+8) = !((mask>>(2-i))&0b001)*255;
-    }
+    } // 'prints' the mask type on the qr code
 
     const int line[21] = {0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1};
+    /* 
+        this array is a fixed mask pattern that occurs at some pixels
+        i'd like to say this pattern made the mask process much
+        harder to code, and this what, i think, can be improved
+    */
     for(int i = 0; i < 21; i++){
+        // this for loop masks the fixed pattern
         if(i > 8 && i < 15){
             continue;
         }else{
@@ -267,6 +299,12 @@ void Image::masking(const int mask){
     }
 
     switch (mask){
+        /*
+            each of these cases is a mask type
+            all cases code are identical but the math involved to
+            determ if the pixel should be modified or not
+            i think this section deserves some improvements too
+        */
     case 0b000:
         for(int i = 0; i < 21; i++){
             for(int j = 0; j < 21; j++){                
@@ -395,7 +433,8 @@ void Image::masking(const int mask){
 }
 
 void Image::resize(const int factor){
-    Image resized(21*factor, 21*factor, 1);
+    // picks a 21x21 pixel image and convert to something readable
+    Image resized(21*factor, 21*factor, 1); // initialize another image object but increased by factor^2
     uint8_t* r_data = resized.data;
     
     for(int i1 = 0; i1 < 21; i1++){
@@ -406,7 +445,7 @@ void Image::resize(const int factor){
                 }
             }
         }
-    }
+    } // that was some ugly code
 
     resized.write("final.png");
     free(r_data);

@@ -1,6 +1,13 @@
+/*
+    this header file contais all functions declarations
+    and includes some c or cpp standard libraries
+    major of functions names are self explained,
+    still you can find more details about
+    each one on the image.cpp file
+*/
+
 #include <stdint.h>
 #include <string.h>
-#include <cstdio>
 #include <bitset>
 #include <iostream>
 #include <cmath>
@@ -8,7 +15,6 @@
 struct Image {
     uint8_t* data = NULL;
     size_t size = 0;
-    size_t dataslots, datavslots, datahslots;
     int w, h, channels;
 
     Image(int w, int h, int channels);
