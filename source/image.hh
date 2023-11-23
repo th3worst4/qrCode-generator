@@ -21,11 +21,11 @@ struct Image {
     Image(const Image& img);
 
     bool write(const char* filename);
-    void generate(int w, const char* mess, const char level, const int);
+    void generate(int w, const char* mess, const int mask);
     void positioning();
     void timing();
-    void errorcorrection(const char level);
-    void messengedata(const char* mess);
+    void errorcorrection(const size_t len);
+    const size_t messengedata(const char* mess);
     size_t getlen(const char* mess);
     void writedata(const std::string encmes, const size_t len);
     void masking(const int mask);

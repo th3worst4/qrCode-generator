@@ -21,9 +21,9 @@ bool Image::write(const char* filename){
 }
 
 // this function is the "recipe" to the image, declares each step
-void Image::generate(int w, const char* mess, const char level, const int mask){
-    messengedata(mess); // receives the message and encode it
-    errorcorrection(level); // define the error correction level
+void Image::generate(int w, const char* mess, const int mask){
+    size_t len = messengedata(mess); // receives the message and encode it
+    errorcorrection(len); // define the error correction level
     masking(mask);  // masks all data
     positioning();  // creates the fixed patern of positioning and timing
     resize(27); // resizes the original image by the passed factor
@@ -67,36 +67,43 @@ void Image::timing(){
         pixel = !pixel;
     }
 }
-void Image::errorcorrection(const char level){
+void Image::errorcorrection(const size_t len){
     // still working on it
-    int* error = new int[2];
+    uint8_t errorlevel;
+
+    size_t error = 26 - len;
+    char level;
+    if(error <= 7){
+        level = 'L';
+    }else if(error > 7 && error <= 10){
+        level = 'M';
+    }else if(error > 10 && error <= 13){
+        level = 'Q';
+    }else if(error > 13 && error <= 17){
+        level = 'H';
+    }
 
     switch (level){
     case 'L':
-        *error = 0;
-        *(error+1) = 0;
+        errorlevel = 0b00;
         break;
     case 'M':
-        *error = 0;
-        *(error+1) = 1;
+        errorlevel = 0b01;
         break;
     case 'Q':
-        *error = 1;
-        *(error+1) = 0;
+        errorlevel = 0b10;
         break;
     case 'H':
-        *error = 1;
-        *(error+1) = 1;
+        errorlevel = 0b11;
         break;
     default:
-        *error = 0;
-        *(error+1) = 0;
+        errorlevel = 0b00;
         break;
     }
 
     for(int i = 0; i < 2; i++){
-        *(data+168+i) = *(error+i)*255;
-        *(data+21*(21-i)-13) = *(error+i)*255;
+        *(data+168+i) = !(errorlevel>>(1-i)&0b01)*255;
+        *(data+21*(21-i)-13) = !(errorlevel>>(1-i)&0b01)*255;
     }
 }
 size_t Image::getlen(const char* mess){
@@ -107,7 +114,7 @@ size_t Image::getlen(const char* mess){
     }
     return iterator;
 }
-void Image::messengedata(const char* mess){
+const size_t Image::messengedata(const char* mess){
     *(data+w*h-2) = 0; // sets the qrcode to be bitwise
 
     size_t len = getlen(mess);
@@ -127,6 +134,8 @@ void Image::messengedata(const char* mess){
         }
     } // encode the message to binary
     writedata(encmess, len);
+    
+    return len;
 }
 void Image::writedata(const std::string encmes, const size_t len){
     /*

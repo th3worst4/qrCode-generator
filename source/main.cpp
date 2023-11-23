@@ -16,7 +16,10 @@ int main(int argc, char** argv){
 
     /* cals the generate function,
     this function contains all other instructions */
-    out.generate(21, "'Twas brillig", 'L', 0b011);
-
+    try{
+        out.generate(21, "'Twas brillig", 0b011);
+    }catch (...){
+        return -1;
+    }
     return 0;
 }
