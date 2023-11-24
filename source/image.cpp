@@ -73,31 +73,31 @@ void Image::errorcorrection(const size_t len){
 
     size_t error = 26 - len;
     char level;
-    if(error <= 7){
+    if(error >= 7 && error <= 10){
         level = 'L';
-    }else if(error > 7 && error <= 10){
-        level = 'M';
     }else if(error > 10 && error <= 13){
-        level = 'Q';
+        level = 'M';
     }else if(error > 13 && error <= 17){
+        level = 'Q';
+    }else if(error > 17){
         level = 'H';
     }
 
     switch (level){
     case 'L':
-        errorlevel = 0b00;
-        break;
-    case 'M':
         errorlevel = 0b01;
         break;
-    case 'Q':
-        errorlevel = 0b10;
+    case 'M':
+        errorlevel = 0b00;
         break;
-    case 'H':
+    case 'Q':
         errorlevel = 0b11;
         break;
+    case 'H':
+        errorlevel = 0b10;
+        break;
     default:
-        errorlevel = 0b00;
+        errorlevel = 0b01;
         break;
     }
 
