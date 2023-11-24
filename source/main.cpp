@@ -8,14 +8,16 @@ int main(int argc, char** argv){
     */
     if(argc <= 1){
         char buffer[20]; // buffer only to down 19 chars + '\n' , v1 qrcode limit
-        std::cout<<"You have to pass data to be encoded\n";
+        std::cout<<"you have to pass data to be encoded\n";
         std::cout<<"e.g: \".\\main.exe samplestring\"\n";
+        std::cout<<"you can pass it at runtime too\n";
+        std::cout<<"(main) ";
         std::cin>> std::setw(19) >> buffer; // setw(19) limits the size of data input
         *(argv+1) = buffer; // places the buffer on same adress as argv+1, i think it leads to less code
     }
 
     Image out(21, 21, 1); // Creates an Image object
-    
+
     try{
         /*
             cals the generate function,
