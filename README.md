@@ -2,7 +2,7 @@
 
 ### Simple QR Code generator.
 
-My purpose with this project is be able to create any QR Code v1. A v1(or version 1) QR Code is made by 21 by 21 data chunks and can storage 20 or less UTF-8 characters. 
+My purpose with this project is be able to create any QR Code v1. A v1(or version 1) QR Code is made by 21 by 21 data modules and can storage 20 or less UTF-8 characters. 
 
 On this code, I've used bitwise encoding method. Some different encoding methods can be used to store more data, but any of them have it's own limitation. You can check more about it on the wikipedia page about [QR Code][].
 
@@ -31,17 +31,19 @@ My intention is you could pass an argument at execution on command prompt, like 
 
 `.\main.exe samplestring`
 
-Still, if you pass no argument, the program will ask one to be provided at the console. At this moment, this behavior is disabled for bebugging purposes, but you can enable it. 
+Still, if you pass no argument, the program will ask one to be provided at the console. At this moment, none of those options have influence on the final image, I'm using a fixed string to debug the code: 'Twas brilling'.
 
-Go to the [source/main.cpp], at line 17 you will see the following:
+I dont know whats this means but it's the encoded message on Wikipedia's QR Code v1 example. Using this same string helps me to know if the result is right or not.
 
-`out.generate(21, "'Twas brilling", 'L', 0b011)`;
+Still, you can enable the user's input feature. Go to the [source/main.cpp], at line 26 you will see the following:
+
+`out.generate(21, "'Twas brilling", 0b011);`
 
 change it to:
 
-`out.generate(21, *(argv+1), 'L', 0b011)`
+`out.generate(21, *(argv+1), 0b011);`
 
-Now you will be able to pass any 20 or less characters string to be encoded.
+Now you will be able to pass any 20 or less characters string to be encoded. When the project is finished I will implement it as a standard behavior. 
 
 ### Where to find my QR Code?
 There is two options:
