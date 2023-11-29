@@ -21,7 +21,7 @@ This code uses the [stb_image][] library. You can check their project on GitHub!
 
 To compile this project you can use the [Makefile][], there will be some g++ commands. I recommend you first clear all directories by using `make clean-all`, it will delete any object, executable and image files for both bin and debug directories. So on you can use `make all` to create both debug and release executable. The files on debug folder accept gdb debugging.
 
-OBS.: the [Makefile] was built to run at Windows machines using [PowerShell 7.x][]. You can install PowerShell on Linux or macOS with one of those is your platform, still I just recommend you to do some changes on the Makefile.
+OBS.: the [Makefile] was built to run at Windows machines using [PowerShell 7.x][]. You can install PowerShell on Linux or macOS if one of those is your platform, still I just recommend you to do some changes on the Makefile.
 
 [Makefile]: Makefile
 [PowerShell 7.x]: https://github.com/PowerShell/PowerShell
@@ -59,8 +59,28 @@ Reed Solomon Code is a very interesting and hard topic to study by your own (and
 
 [Reed-Solomon codes for coders]: https://en.wikiversity.org/wiki/Reed–Solomon_codes_for_coders
 
+## Some research sources
+QR code generation, elements and features:
+*	[Wikipedia: QR Code][]
+*	[YouTube: The Math behind QR code, what happens inside there?][]
+*   [YouTube: How to Decode a QR Code by Hand][]
+*	[YouTube: How QR Codes Are Built][]
 
+Reed Solomon code:
+*	[Wikiversity: Reed-Solomon codes for coders][]
+*	[YouTube: But what are Hamming codes? The origin of error correction][] 
+*	[YouTube: Reed Solomon Codes: RISC Zero Study Club][]
+*	[Chat Open AI: QR Code: RS Explanation][] 
 
+[Wikipedia: QR Code]: https://en.wikipedia.org/wiki/QR_code#
+[YouTube: The Math behind QR code, what happens inside there?]: https://www.youtube.com/watch?v=Rc3ul6RRANU&
+[YouTube: How to Decode a QR Code by Hand]: https://youtu.be/KA8hDldvfv0?si=ZHavlQTsIpW7EErZ
+[YouTube: How QR Codes Are Built]: https://www.youtube.com/watch?v=142TGhaTMtI
+
+[Wikiversity: Reed-Solomon codes for coders]: https://en.wikiversity.org/wiki/Reed–Solomon_codes_for_coders
+[YouTube: But what are Hamming codes? The origin of error correction]: https://youtu.be/X8jsijhllIA?si=qCxaXryVOfoCisoy
+[YouTube: Reed Solomon Codes: RISC Zero Study Club]: https://youtu.be/Yu9DHhdSqQo?si=oY8aAA648QZU0Nhe
+[Chat Open AI: QR Code: RS Explanation]: https://chat.openai.com/share/4b56aa10-0122-48a4-a688-4e721591f160
 ### todo
 * LEARN REED SOLOMON CODE -> stopped at multiplications and logarithms
 * create a .dat file with log and anti-log table
