@@ -43,7 +43,7 @@ change it to:
 
 `out.generate(21, *(argv+1), 0b011);`
 
-Now you will be able to pass any 20 or less characters string to be encoded. When the project is finished I will implement it as a standard behavior. 
+Now you will be able to pass any 20 or less characters string to be encoded. When the project is finished I will implement it as a standard behavior.
 
 ### Where to find my QR Code?
 There is two options:
