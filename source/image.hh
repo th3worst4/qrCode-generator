@@ -32,3 +32,7 @@ struct Image {
     void masking(const int mask);
     void resize(const int factor);
 };
+
+int gf_add(int a, int b);
+int bit_length(int a);
+int gf_mult(int a, int b, int prim = 0x11d , int field_charac_full = 256, bool caryless = true);

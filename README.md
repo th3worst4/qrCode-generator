@@ -62,4 +62,5 @@ Reed Solomon Code is a very interesting and hard topic to study by your own (and
 
 
 ### todo
-* LEARN REED SOLOMON CODE
+* LEARN REED SOLOMON CODE -> stopped at multiplications and logarithms
+* create a .dat file with log and anti-log table

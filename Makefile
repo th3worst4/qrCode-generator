@@ -1,9 +1,9 @@
 CC = g++
 CFLAGS = -m64
 
-CFILES = image.cpp main.cpp
-OBJECTS = image.o main.o
-DOBJECTS = main-debug.o image-debug.o
+CFILES = image.cpp main.cpp reed-solomon.cpp
+OBJECTS = image.o main.o reed-solomon.o
+DOBJECTS = main-debug.o image-debug.o reed-solomon-debug.o
 
 SHELL := pwsh.exe
 .SHELLFLAGS := -Command
