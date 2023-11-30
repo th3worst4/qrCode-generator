@@ -14,7 +14,7 @@ int main(int argc, char** argv){
         std::cout<<"e.g: \".\\main.exe samplestring\"\n";
         std::cout<<"you can pass it at runtime too\n";
         std::cout<<"(main) ";
-        std::cin>> std::setw(19) >> buffer; // setw(19) limits the size of data input
+        std::cin>> std::setw(20) >> buffer; // setw(20) limits the size of data input to 19 + \0
         *(argv+1) = buffer; // places the buffer on same adress as argv+1, i think it leads to less code
     }
 
