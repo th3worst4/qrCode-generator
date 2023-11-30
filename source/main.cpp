@@ -2,6 +2,8 @@
 
 int main(int argc, char** argv){
 
+    read_tables();
+
     /*
         checks if any argv was given at execution time
         if not, asks the user to input someone

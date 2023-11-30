@@ -10,8 +10,10 @@
 #include <string.h>
 #include <bitset>
 #include <iostream>
+#include <fstream>
 #include <iomanip>
 #include <cmath>
+#include <vector>
 
 struct Image {
     uint8_t* data = NULL;
@@ -35,4 +37,7 @@ struct Image {
 
 int gf_add(int a, int b);
 int bit_length(int a);
-int gf_mult(int a, int b, int prim = 0x11d , int field_charac_full = 256, bool caryless = true);
+int gf_mult(int a, int b, int prim);
+int gf_mult_noLUT(int a, int b, int prim = 0, int field_charac_full = 256, bool carryless = true);
+void init_tables(int prim = 0x11d);
+void read_tables();
