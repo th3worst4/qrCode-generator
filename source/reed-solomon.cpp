@@ -8,20 +8,36 @@
     https://en.wikiversity.org/w/index.php?title=Reed–Solomon_codes_for_coders&oldid=2487070
 */
 
+/* 
+    initialize two globally declared arrays, these arrays are used to contain
+    all data presented at the exp and log table files.
+    the files are used just as containers to the calculations (that should be)
+    done previously. it wouldn't be a good code practice to redo all these calculations 
+    every time the application is executed
+*/
 int gf_exp[512] = {0};
 int gf_log[256] = {0};
 
 int gf_add(int a, int b){
+    // add operation on GF(2^8) is same as XOR operation 
     return a ^ b;
 }
 
 int bit_length(int a){
+    // gets int bit length
     int bits = 0;
     while(a >> bits) bits++;
     return bits;
 }
 
-int gf_mult(int a, int b, int prim){ 
+int gf_mult(int a, int b, int prim){
+    /*
+        if you already have the "gf_exp.dat" and "gf_log.dat" files,
+        this will be the function used to perform multiplication
+        operation between two integers at GF(2^8).
+        if not, you must run the init_tables function, it will
+        create both files
+    */
     if(!a || !b){
         return 0;
     } 
@@ -30,6 +46,11 @@ int gf_mult(int a, int b, int prim){
 
 
 int gf_mult_noLUT(int a, int b, int prim, int field_charac_full, bool carryless){
+    /*
+        this function is only used to create the data tables.
+        i could remove this if i didn't want to pay the risk of,
+        accidentally, mess up with the tables
+    */
     int r = 0;
     while(b){
         if(b & 1){
@@ -45,15 +66,13 @@ int gf_mult_noLUT(int a, int b, int prim, int field_charac_full, bool carryless)
 
 void init_tables(int prim){
     /*
+        this function creates the tables and allocates it at two .dat files.
         there is no purpose on calling this function every time you run the code
         so on debug process you can call it on gdb by passing "call init_tables(0x11d)"
         on gdb console
-        it will create two .dat files that contain the exp and log tables to be
-        used on multiplication process
     */
     int gf_exptable[256] = {0};
     int gf_logtable[256] = {0};
-
 
     std::ofstream gf_log("../source/gf_log.dat");
     std::ofstream gf_exp("../source/gf_exp.dat");
