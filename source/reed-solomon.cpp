@@ -55,8 +55,8 @@ void init_tables(int prim){
     int gf_logtable[256] = {0};
 
 
-    std::ofstream gf_log("gf_log.dat");
-    std::ofstream gf_exp("gf_exp.dat");
+    std::ofstream gf_log("../source/gf_log.dat");
+    std::ofstream gf_exp("../source/gf_exp.dat");
 
     int x = 1;
     if(gf_log.is_open() && gf_exp.is_open()){
@@ -84,8 +84,8 @@ void read_tables(){
         i dont know if this is the smartest way to do it, but im really
         proud of thinking it
     */
-    std::ifstream gf_expfile("gf_exp.dat");
-    std::ifstream gf_logfile("gf_log.dat");
+    std::ifstream gf_expfile("../source/gf_exp.dat");
+    std::ifstream gf_logfile("../source/gf_log.dat");
 
     std::string temp;
 
@@ -100,4 +100,7 @@ void read_tables(){
         gf_log[i] = stoi(temp);
         i++;
     }
+
+    gf_expfile.close();
+    gf_logfile.close();
 }
