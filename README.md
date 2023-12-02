@@ -53,8 +53,6 @@ There is two options:
 1) If you have ran the relese project it will be at bin/final.png
 2) If you have run the debug project it will be at debug/final.png
 
-Either of this options, you will see an "out.png" file. This is an exact copy of the generated QR Code, but on 1:1 scale (21x21 px). Don't worry about it, you can delete this if you want.
-
 ## Be aware this is still an ongoing project
 
 As an ongoing project, the code lacks the Reed Solomon correction code. Then none decoder can detect and transmit the data yet.
