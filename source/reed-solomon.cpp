@@ -103,8 +103,12 @@ void read_tables(){
         i dont know if this is the smartest way to do it, but im really
         proud of thinking it
     */
-    std::ifstream gf_expfile("../source/gf_exp.dat");
-    std::ifstream gf_logfile("../source/gf_log.dat");
+    std::ifstream gf_expfile("../source/gf_exp.dat", std::ifstream::in);
+    std::ifstream gf_logfile("../source/gf_log.dat", std::ifstream::in);
+
+    if(!gf_expfile && !gf_logfile){
+        init_tables(0x11d);
+    }
 
     std::string temp;
 
