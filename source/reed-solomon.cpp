@@ -68,8 +68,6 @@ void init_tables(int prim){
     /*
         this function creates the tables and allocates it at two .dat files.
         there is no purpose on calling this function every time you run the code
-        so on debug process you can call it on gdb by passing "call init_tables(0x11d)"
-        on gdb console
     */
     int gf_exptable[256] = {0};
     int gf_logtable[256] = {0};
@@ -103,8 +101,16 @@ void read_tables(){
         i dont know if this is the smartest way to do it, but im really
         proud of thinking it
     */
-    std::ifstream gf_expfile("../source/gf_exp.dat");
-    std::ifstream gf_logfile("../source/gf_log.dat");
+    std::ifstream gf_expfile("../source/gf_exp.dat", std::ifstream::in);
+    std::ifstream gf_logfile("../source/gf_log.dat", std::ifstream::in);
+
+    if(!gf_expfile || !gf_logfile){
+        /*
+            detects if the files do not exit
+            if not, calls the generate function
+        */
+        init_tables(0x11d);
+    }
 
     std::string temp;
 
